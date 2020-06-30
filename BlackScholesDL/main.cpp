@@ -216,22 +216,18 @@ int main()
 	while (option != 0) {
 		//clearConsole();
 		cout << "****************************************************************************" << endl;
-		cout << "		Black-Scholes Calculator and ML Dataset Generator		 " << endl << endl;
+		cout << "		Black-Scholes calculator and dataset generator		 " << endl << endl;
 		cout << "Select an option by entering the given number:" << endl << endl;
-		cout << "1. Price an European Call Option using the Black-Scholes model" << endl;
-		cout << "2. Price an European Put Option using the Black-Scholes model" << endl;
-		cout << "3. Generate an European Vanilla Options Dataset using the Black-Scholes model" << endl;
+		cout << "1. Price an european option using the Black-Scholes formula" << endl;
+		cout << "2. Generate an European options dataset using the Black-Scholes formula" << endl;
 		cout << "0. To exit the program" << endl;
 		cout << "****************************************************************************" << endl;
 		cout << endl << "Please enter the option number:" << endl;
 		cin >> option;
 		if (option == 1) {
-			priceEurOptionBS("Call");
+			priceEurOptionBS();
 		}
 		else if (option == 2) {
-			priceEurOptionBS("Put");
-		}
-		else if (option == 3) {
 			generateEurOptionBS();
 		}
 		else if (option == 0) {
