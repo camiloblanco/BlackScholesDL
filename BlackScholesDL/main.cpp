@@ -16,13 +16,11 @@
 ****************************************************************************************/
 
 #include<iostream>
-#include<string>
 #include<stdlib.h>
 #include <random>
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <cmath>
 
 #include "EurOptionBS.h"
 #include "EurCallBS.h"
