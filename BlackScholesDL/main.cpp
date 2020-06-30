@@ -1,15 +1,14 @@
 /****************************************************************************************
-* Project		:	Mathematical Finance MSc Dissertation @QMUL 2019/2020
-*					Machine Learning and numerical techniques for option pricing.
-* Lenguaje		:	C++ / MS Visual Studio
-* Description	:	main CPP file for the program EurOptionBS, entry point.
-*
-* References	:	- M.Capinski and T.Zastawniak, Numerical Methods in Finance with C++,
-*					  Cambridge, 2012, code: http://www.cambridge.org/9780521177160
-*                   - P. Wilmott Introduces Quantitative Finance, Second Ed.
-* Git Control	:	https://github.com/camiloblanco/BlackScholesDL
-* Author - Year	:	Camilo Blanco Vargas - 2020
+* Project		:	Machine Learning and modern numerical techniques for high-dimensional
+*					option pricing - Financial Computing MSc. Dissertation QMUL 2019/2020
+* License		:	MIT License, https://opensource.org/licenses/MIT
+* Copyright (c) :	2020 Camilo Blanco 
 * Mail - Web	:	mail@camiloblanco.com - www.camiloblanco.com
+* Lenguaje / Env:	C++ / Microsoft Visual Studio Community 2019
+* Git Control	:	https://github.com/camiloblanco/BlackScholesDL
+* Description	:	main CPP file for the program BlackScholesDL, entry point.
+*
+* 
 ****************************************************************************************/
 
 /****************************************************************************************
@@ -207,7 +206,7 @@ void generateEurOptionBS() {
 
 
 /****************************************************************************************
-*									APPLICATION MAIN									*
+*											 MAIN										*
 ****************************************************************************************/
 
 int main()
