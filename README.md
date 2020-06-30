@@ -1,4 +1,4 @@
-# Deep Learning for Black Scholes European Option Pricing
+# Deep Learning for Black Scholes european options
 * Project		:	Machine Learning and modern numerical techniques for high-dimensional
 *					option pricing - Financial Computing MSc. Dissertation QMUL 2019/2020
 * License		:	MIT License, https://opensource.org/licenses/MIT
