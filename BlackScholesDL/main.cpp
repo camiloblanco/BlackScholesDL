@@ -16,13 +16,11 @@
 ****************************************************************************************/
 
 #include<iostream>
-#include<string>
 #include<stdlib.h>
 #include <random>
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <cmath>
 
 #include "EurOptionBS.h"
 #include "EurCallBS.h"
@@ -58,12 +56,13 @@ void readLine(string& description) {
 	getline(cin, description);
 }
 
-//Menu for pricing an European Call or Put Options using the Black-Scholes model
-void priceEurOptionBS(string optionType) {
+//Menu for pricing an European Call and Put Options using the Black-Scholes model
+void priceEurOptionBS() {
+	//Declare Variables
 	double T = 0, K = 0, S0 = 0, sigma = 0, r = 0;
 	clearConsole();
 	cout << "****************************************************************************" << endl;
-	cout << "	Price an European " << optionType << " Option using the Black-Scholes model" << endl << endl;
+	cout << "	Price european optiosn using the Black-Scholes model" << endl << endl;
 	cout << "Please enter the Time to maturity in years (T): " << endl;
 	cin >> T;
 	cout << "Please enter the Strike (Exercise) Price (K): " << endl;
@@ -75,31 +74,37 @@ void priceEurOptionBS(string optionType) {
 	cout << "Please enter the Annual risk-free interest rate (r): " << endl;
 	cin >> r;
 	if (T >= 0 && K >= 0 && S0 >= 0 && sigma >= 0 && r >= 0) {
-		EurOptionBS* eurOptionPTR;
-		if (optionType.compare("Call") == 0) {
-			eurOptionPTR = new EurCallBS(T, K);
+
+		// Declare qn optionsPTRvec pointers vector, an EurCallBS, and an EurPutBS Objects
+		vector<EurOptionBS*> optionsPTRvec;
+		EurOptionBS* eurCallPTR = new EurCallBS(T, K);
+		EurOptionBS* eurPutPRT = new EurPutBS(T, K);
+		optionsPTRvec.push_back(eurCallPTR);
+		optionsPTRvec.push_back(eurPutPRT);
+
+		//Loop over the vector of options types
+		for (auto& option : optionsPTRvec) {
+			option->setK(K);
+			option->setT(T);
+			// Price the options, calculate the greeks and display
+			cout << endl << "The Black-Scholes formula results for this " << option->getType() << " option are:" << endl;
+			cout << "The option price is: " << option->priceByBSFormula(S0, sigma, r) << endl;
+			cout << "The option Delta is: " << option->deltaByBSFormula(S0, sigma, r) << endl;
+			cout << "The option Gamma is: " << option->gammaByBSFormula(S0, sigma, r) << endl;
+			cout << "The option Theta is: " << option->thetaByBSFormula(S0, sigma, r) << endl;
 		}
-		else if (optionType.compare("Put") == 0) {
-			eurOptionPTR = new EurPutBS(T, K);
+		
+		//Delete EurOptionBS Objects
+		for (auto pointer : optionsPTRvec)
+		{
+			delete pointer;
 		}
-		else {
-			cout << "Error in function priceEurOptionBS" << endl;
-			cout << "The option type should be Call or Put " << endl;
-			cin.get();
-			exit(0);
-		}
-		cout << endl << "Using the Black-Scholes model for this " << optionType << " European Option the Results are:" << endl;
-		cout << "The option price is: " << eurOptionPTR->priceByBSFormula(S0, sigma, r) << endl;
-		cout << "The option Delta is: " << eurOptionPTR->deltaByBSFormula(S0, sigma, r) << endl;
-		cout << "The option Gamma is: " << eurOptionPTR->gammaByBSFormula(S0, sigma, r) << endl;
-		cout << "The option Theta is: " << eurOptionPTR->thetaByBSFormula(S0, sigma, r) << endl;
-		delete eurOptionPTR;
-		menuPause();
+		optionsPTRvec.clear();
 	}
 	else {
 		cout << "All parameters must be positive. " << endl;
-		menuPause();
 	}
+	menuPause();
 }
 
 // Funtion to round up double values
@@ -115,7 +120,7 @@ void generateEurOptionBS() {
 	vector<EurOptionBS*> optionsPTRvec;
 	const double nMin = 0.00000001;
 	int numSamples=0;
-	double T = 1.0, K = 102.0, S0 = 100.0, sigma = 0.5, r = 0.05;
+	double T = 0, K = 0, S0 = 0, sigma = 0, r = 0;
 	double tMax = 2.0, pMax=500.0, sigmaMax=1.0, rMax = 0.1;
 	
 	//Display menu and read number of samples for Dataset
@@ -176,6 +181,7 @@ void generateEurOptionBS() {
 			fileStream << T << "," << K << "," << S0 << "," << sigma << "," << r << ",";
 			// Set Output precision to 8 decimals
 			fileStream << fixed << setprecision(8);
+
 			//Loop over the vector of options types
 			for (auto& option : optionsPTRvec) {
 				option->setK(K);
@@ -199,9 +205,7 @@ void generateEurOptionBS() {
 		delete pointer;
 	}
 	optionsPTRvec.clear();
-
 	menuPause();
-
 }
 
 
@@ -216,22 +220,18 @@ int main()
 	while (option != 0) {
 		//clearConsole();
 		cout << "****************************************************************************" << endl;
-		cout << "		Black-Scholes Calculator and ML Dataset Generator		 " << endl << endl;
+		cout << "		Black-Scholes calculator and dataset generator		 " << endl << endl;
 		cout << "Select an option by entering the given number:" << endl << endl;
-		cout << "1. Price an European Call Option using the Black-Scholes model" << endl;
-		cout << "2. Price an European Put Option using the Black-Scholes model" << endl;
-		cout << "3. Generate an European Vanilla Options Dataset using the Black-Scholes model" << endl;
+		cout << "1. Price an european option using the Black-Scholes formula" << endl;
+		cout << "2. Generate an European options dataset using the Black-Scholes formula" << endl;
 		cout << "0. To exit the program" << endl;
 		cout << "****************************************************************************" << endl;
 		cout << endl << "Please enter the option number:" << endl;
 		cin >> option;
 		if (option == 1) {
-			priceEurOptionBS("Call");
+			priceEurOptionBS();
 		}
 		else if (option == 2) {
-			priceEurOptionBS("Put");
-		}
-		else if (option == 3) {
 			generateEurOptionBS();
 		}
 		else if (option == 0) {
